@@ -9,6 +9,7 @@
   "author": "phanuel otiato <phanuelotiato21@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "mysql": "^2.17.1"
   }
 }
