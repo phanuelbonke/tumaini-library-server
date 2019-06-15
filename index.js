@@ -76,6 +76,25 @@ app.get("/api/library", (req, res)=> {
                      }
                  );
              });
+             app.get("/api/book_auther/:id/member", (req, res) => {
+                     pool.query(
+                         `SELECT b.name, b.cover_url, b.pub_id, m.discription, m.name, GROUP_CONCAT(p.pub_id) publisher
+                         FROM book b
+                         JOIN member m ON m.id = m.address
+                         JOIN publisher p ON p.pub_id = m.id
+                         WHERE b.pub_id = 56
+                         GROUP BY m.id, b.name
+                         ORDER BY b.pub_id, b.name`,
+                         [req.params.id],
+                         (error, rows) => {
+                             if (error) {
+                                 return res.status(500).json({ error });
+                             }
+                
+                             res.json(rows);
+                         }
+                     );
+                 });
     
         
 app.listen(9000, function () {
