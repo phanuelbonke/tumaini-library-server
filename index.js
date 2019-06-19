@@ -9,7 +9,7 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME
 });
 app.use(express.json());
-app.use(express.urlencoded({ extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 app.get("/api/library", (req, res) => {
     //fetch publishers from database
@@ -85,7 +85,7 @@ app.get("/api/book_auther/:id/member", (req, res) => {
                          FROM book b
                          JOIN member m ON m.id = m.address
                          JOIN publisher p ON p.pub_id = m.id
-                         WHERE b.pub_id = ?
+                         WHERE b.pub_id = 2
                          GROUP BY m.id, b.name
                          ORDER BY b.pub_id, b.name`,
         [req.params.id],
@@ -99,18 +99,134 @@ app.get("/api/book_auther/:id/member", (req, res) => {
     );
 });
 
-app.post("/api/book", (req, res)=> {
-const { name }= req.body;
-console.log(req.body.name);
+app.post("/api/book", (req, res) => {
+    const { name } = req.body;
+    console.log(req.body.name);
 
-if(name === "") {
-    return res.status(400).json({error:"invalid payload"}
+    if (name === "") {
+        return res.status(400).json({ error: "invalid payload" }
+        );
+    }
+
+});
+
+app.post("/api/book", (req, res) => {
+    const book = req.body;
+
+    if (!book.name) {
+        return res.status(400).json({ error: "Invalid payload" });
+    }
+
+    pool.query(
+        "INSERT INTO book (name) VALUES (?)",
+        [book.name],
+        (error, results) => {
+            if (error) {
+                return res.status(500).json({ error });
+            }
+
+            res.json(results.insertId);
+        }
     );
-}
-
 });
 
+app.put("/api/publisher/:id", (req, res) => {
+    const publisher = req.body;
 
-app.listen(9000, function () {
-    console.log("App listening on port 9000");
+    if (!publisher.name) {
+        return res.status(400).json({ error: "Invalid payload" });
+    }
+
+    pool.query(
+        "UPDATE publisher SET name = ? WHERE id = 1",
+        [publisher.name, req.params.id],
+        (error, results) => {
+            if (error) {
+                return res.status(500).json({ error });
+            }
+
+            res.json(results.changedRows);
+        }
+    );
 });
+app.post("/api/books", (req, res) => {
+         const {
+            book_id,
+            name,
+            cover_url,
+            discription,
+            pub_id
+            
+         } = req.body;
+    
+         if (
+            !book_id ||
+            !name ||
+            !cover_url ||
+            !discription ||
+            !pub_id ||
+            
+             (Array.isArray(publishers) && publishers.length === 0)
+             //(Array.isArray(member) && member.length === 0)
+         ) {
+             return res.status(400).json({ error: "Invalid payload" });
+         }
+    
+         pool.getConnection((error, connection) => {
+             if (error) {
+                 return res.status(500).json({ error });
+             }
+    
+             connection.beginTransaction(error => {
+                 if (error) {
+                     return res.status(500).json({ error });
+                 }
+    
+                 connection.query(
+                    "INSERT INTO book (book_id, name, cover_url, discription, pub_id, id) VALUES (?, ?, ?, ?, ?)",
+                [book_id, name, cover_url, discription, pub_id],
+                     (error, results) => {
+                         if (error) {
+                             return connection.rollback(() => {
+                                 res.status(500).json({ error });
+                             });
+                         }
+    
+                         const insertId = results.insertId;
+                         const publisherValues = publishers.map(publisher => [insertId, publisher]);
+    
+                         connection.query(
+                            "INSERT INTO publisher (pub_id) VALUES ?",
+                            [publisherValues],
+                             (error, results) => {
+                                 if (error) {
+                                     return connection.rollback(() => {
+                                         res.status(500).json({ error });
+                                     });
+                                 }
+                                 
+                                 
+    
+                                 connection.commit(error => {
+                                     if (error) {
+                                         return connection.rollback(() => {
+                                             res.status(500).json({ error });
+                                         });
+                                     }
+    
+                                     connection.release();
+    
+                                     res.json(insertId);
+                                 });
+                             }
+                         );
+                     }
+                 );
+             });
+         });
+     });
+
+
+    app.listen(9000, function () {
+        console.log("App listening on port 9000");
+    });
