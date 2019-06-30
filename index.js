@@ -21,8 +21,37 @@ app.get("/api/library", (req, res) => {
         res.json(rows)
     });
 });
-
-+ app.get("/api/publisher/:id", (req, res) => {
+app.get("/api/library", (req, res) => {
+    //fetch publishers from database
+    pool.query("SELECT * FROM member", (error, rows) => {
+        console.log(error, rows)
+        if (error) {
+            return res.status(500).json({ error });
+        }
+        res.json(rows)
+    });
+});
+app.get("/api/library", (req, res) => {
+    //fetch publishers from database
+    pool.query("SELECT * FROM book_auther", (error, rows) => {
+        console.log(error, rows)
+        if (error) {
+            return res.status(500).json({ error });
+        }
+        res.json(rows)
+    });
+});
+app.get("/api/library", (req, res) => {
+    //fetch publishers from database
+    pool.query("SELECT * FROM book", (error, rows) => {
+        console.log(error, rows)
+        if (error) {
+            return res.status(500).json({ error });
+        }
+        res.json(rows)
+    });
+});
+ app.get("/api/publisher/:id", (req, res) => {
     pool.query(
         "SELECT id, name FROM publisher WHERE id =?",
         [req.params.id],
@@ -81,11 +110,11 @@ app.get("/api/library/:id/publisher", (req, res) => {
 });
 app.get("/api/book_auther/:id/member", (req, res) => {
     pool.query(
-        `SELECT b.name, b.cover_url, b.pub_id, m.discription, m.name, GROUP_CONCAT(p.pub_id) publisher
+        `SELECT b.name, b.cover_url, b.pub_id, m.dicription, m.name, GROUP_CONCAT(p.pub_id) publisher
                          FROM book b
                          JOIN member m ON m.id = m.address
                          JOIN publisher p ON p.pub_id = m.id
-                         WHERE b.pub_id = 2
+                         WHERE b.pub_id = ?
                          GROUP BY m.id, b.name
                          ORDER BY b.pub_id, b.name`,
         [req.params.id],
@@ -138,7 +167,7 @@ app.put("/api/publisher/:id", (req, res) => {
     }
 
     pool.query(
-        "UPDATE publisher SET name = ? WHERE id = 1",
+        "UPDATE publisher SET pub_name = ? WHERE pub_id = 1",
         [publisher.name, req.params.id],
         (error, results) => {
             if (error) {
@@ -154,8 +183,10 @@ app.post("/api/books", (req, res) => {
             book_id,
             name,
             cover_url,
-            discription,
-            pub_id
+            dicription,
+            pub_id,
+            id,
+            publisher
             
          } = req.body;
     
@@ -163,10 +194,11 @@ app.post("/api/books", (req, res) => {
             !book_id ||
             !name ||
             !cover_url ||
-            !discription ||
+            !dicription ||
             !pub_id ||
+            !id ||
             
-             (Array.isArray(publishers) && publishers.length === 0)
+             (Array.isArray(publisher) && publisher.length === 0)
              //(Array.isArray(member) && member.length === 0)
          ) {
              return res.status(400).json({ error: "Invalid payload" });
@@ -183,8 +215,8 @@ app.post("/api/books", (req, res) => {
                  }
     
                  connection.query(
-                    "INSERT INTO book (book_id, name, cover_url, discription, pub_id, id) VALUES (?, ?, ?, ?, ?)",
-                [book_id, name, cover_url, discription, pub_id],
+                    "INSERT INTO book (book_id, name, cover_url, dicription, pub_id, id) VALUES (?, ?, ?, ?, ?, ?)",
+                [book_id, name, cover_url,dicription, pub_id, id],
                      (error, results) => {
                          if (error) {
                              return connection.rollback(() => {
@@ -193,7 +225,7 @@ app.post("/api/books", (req, res) => {
                          }
     
                          const insertId = results.insertId;
-                         const publisherValues = publishers.map(publisher => [insertId, publisher]);
+                         const publisherValues = publisher.map(publisher => [insertId, publisher]);
     
                          connection.query(
                             "INSERT INTO publisher (pub_id) VALUES ?",
@@ -225,8 +257,21 @@ app.post("/api/books", (req, res) => {
              });
          });
      });
-
-
+    
     app.listen(9000, function () {
         console.log("App listening on port 9000");
     });
+            // Download the helper library from https://www.twilio.com/docs/node/install
+// Your Account Sid and Auth Token from twilio.com/console
+// DANGER! This is insecure. See http://twil.io/secure
+const accountSid = 'ACddaf8574f80d9c8fe784b45aef05fdfd';
+const authToken = '745513ab4055b9f05860a0899f21f3f6';
+const client = require('twilio')(accountSid, authToken);
+
+client.messages
+  .create({
+     body: 'This is the app i was telling you?',
+     from: '+14086457383',
+     to: '+25418366252'
+   })
+  .then(message => console.log(message.sid));
