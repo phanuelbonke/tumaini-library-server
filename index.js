@@ -68,7 +68,7 @@ app.get("/api/library/:id/publisher", (req, res) => {
                      JOIN book_auther g ON g.book_auther_id = m.id
                      WHERE s.book_id = ?
                      GROUP BY m.id,
-                     ORDER BY m.pub_info,`,
+                     ORDER BY m.pub_info`,
         [req.params.id],
         (error, rows) => {
             if (error) {
