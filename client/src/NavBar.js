@@ -1,13 +1,15 @@
 import React from "react";
+import { Link } from "@reach/router";
 function NavBar() {
     return(
     <div className="bkls-container">
         <nav className="bkls-nav">
             <span className="bkls-name">book listing</span>
-            <a  href="/">books</a>
-            <a  href="/">publisher</a>
-            <a  href="/">member</a>
-            <a  href="/">borrower</a>
+            
+            <Link to="/">books</Link>
+            <Link to="/publisher">publisher</Link>
+            <Link to="/member">member</Link>
+            <Link to="/borrower">borrower</Link>
 
         </nav>
     </div>

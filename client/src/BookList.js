@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Books from "./Books";
-import Loading from "./loading";
+import Loading from "./Loading";
 import Error from "./Error";
 
 class BookList extends React.Component{
