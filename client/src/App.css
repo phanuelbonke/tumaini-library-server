@@ -20,3 +20,76 @@
  .bkls-header  .bkls-container{
    padding: 0 12px;
  }
+ .bkls-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 48px;
+}
+.bkls-nav .bkls-name {
+  font-size: 1.5rem;
+  margin-right: 15px;
+}
+.bkls-nav a {
+  font-size: 0.875rem;
+  margin-right: 10px;
+  color: #4299e1;
+  text-decoration: none;
+}
+.bkls-main {
+  padding-top: 51px;
+}
+.bkls-book-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.bkls-books {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  margin: 15px;
+  width: 280px;
+  height: 280px;
+}
+
+.bkls-books-body {
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+.bkls-books .bkls-name {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.bkls-books-footer {
+  padding: 15px 15px 30px;
+  text-align: center;
+}
+.bkls-fullpage-text {
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       min-height: calc(100vh - 51px);
+       width: 100%;
+   }
+  
+   .bkls-fullpage-text > p {
+       font-size: 1.5rem;
+       font-weight: 300;
+       line-height: 1.5;
+       color: #606f7b;
+       margin: 2rem;
+       text-align: center;
+   }
+  
+   @media (min-width: 720px) {
+       .bkls-fullpage-text > p {
+           font-size: 1.875rem;
+       }
+   }
