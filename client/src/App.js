@@ -4,6 +4,7 @@ import  NavBar from "./NavBar";
 import BookList from "./BookList";
 import BooksDetails from "./BooksDetails";
  import PublisherList from "./PublisherList";
+ import PublisherDetails from "./PublisherDetails";
  import MemberDetails from "./MemberDetails";
  import Borrower from "./Borrower";
  import NotFound from "./NotFound";
@@ -22,11 +23,11 @@ function App() {
     <BookList path="/" />
     <BooksDetails path="/books/:booksId" />
     <PublisherList path="/publisher" />
-    <publisherDetails path="/publisher/:publisherId" />
+    <PublisherDetails path="/publisher/:publisherId" />
     <MemberList path="/member" />
     <MemberDetails path="/member/:memberId" />
-    <BorrowerList path="/borrower" />
-    <BorrowerDetails path="/borrower/:borrowerId" />
+    <Borrower path="/borrower" />
+    <NotFound default />
   </Router>
   </main>
 </div>
