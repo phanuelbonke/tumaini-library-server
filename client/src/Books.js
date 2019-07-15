@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@reach/router";
 
 function Books({ booksInfo }) {
     const { book_id, name, cover_url, dicription, pub_id, id } = booksInfo;
@@ -13,9 +14,9 @@ function Books({ booksInfo }) {
             <p className="bkls-id">{id}</p>
             </div>
             <div className="bkls-books-footer">
-                <a href={`/books/${id}`} className="bkls-btn bkls-btn-dicription">
-                    dicription
-                </a>
+                    <Link to={`/books/${id}`} className="bkls-btn bkls-btn-dicription">
+                     dicription
+                 </Link>
             </div>
         </div>
     );
