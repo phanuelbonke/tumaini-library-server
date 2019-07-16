@@ -1,13 +1,14 @@
 import React from "react";
 
-function error({message}) {
+function Error({ message }) {
     return (
         <div className="bkls-fullpage-text">
-            <p>({message})</p>
+            <p>{message}</p>
         </div>
     );
 }
-error.defaultProps = {
+
+Error.defaultProps = {
     message: "Sorry, a server, error occurred. please retry."
 };
 

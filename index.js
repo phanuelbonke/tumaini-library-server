@@ -65,7 +65,7 @@ app.get("/api/library", (req, res) => {
     );
 }); app.get("/api/book/:id", (req, res) => {
     pool.query(
-        "SELECT book_id, name FROM book WHERE id = 2",
+        "SELECT book_id, name, cover_url, dicricption, pub_id, id FROM book WHERE book_id = ?",
         [req.params.id],
         (error, rows) => {
             if (error) {
