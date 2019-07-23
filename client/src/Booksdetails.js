@@ -55,7 +55,7 @@ class BooksDetails extends React.Component {
 
          if (booksDetails.length !== 1) {
             return (
-                <Error message="Sorry, the movie does not exist. Please retry." />
+                <Error message="Sorry, the book does not exist. Please retry." />
             );
          }
 

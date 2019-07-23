@@ -6,10 +6,10 @@ function NavBar() {
         <nav className="bkls-nav">
             <span className="bkls-name">book listing</span>
             
-            <Link to="/">books</Link>
-            <Link to="/publisher">publisher</Link>
-            <Link to="/member">member</Link>
-            <Link to="/borrower">borrower</Link>
+            <Link to="/books">Book</Link>
+            <Link to="/publisher">Publisher</Link>
+            <Link to="/member">Member</Link>
+            <Link to="/admin">Admin</Link>
 
         </nav>
     </div>

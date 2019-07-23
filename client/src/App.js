@@ -7,7 +7,7 @@ import PublisherList from "./PublisherList";
 import PublisherDetails from "./PublisherDetails";
 import MemberList from "./MemberList";
 import MemberDetails from "./MemberDetails";
-import Borrower from "./Borrower";
+import Admin from "./Admin";
 import NotFound from "./NotFound";
 import './App.css';
 
@@ -26,7 +26,7 @@ function App() {
           <PublisherDetails path="/publisher/:publisherId" />
           <MemberList path="/member" />
           <MemberDetails path="/member/:memberId" />
-          <Borrower path="/borrower" />
+          <Admin path="/admin" />
           <NotFound default />
         </Router>
       </main>

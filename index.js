@@ -53,7 +53,7 @@ app.get("/api/library", (req, res) => {
 });
  app.get("/api/publisher/:id", (req, res) => {
     pool.query(
-        "SELECT id, name FROM publisher WHERE id =?",
+        "SELECT * FROM publisher WHERE pub_id =?",
         [req.params.id],
         (error, rows) => {
             if (error) {
@@ -76,10 +76,10 @@ app.get("/api/library", (req, res) => {
         }
     );
 });
-app.get("/api/library/:id/publisher", (req, res) => {
+app.get("/api/publisher/:id", (req, res) => {
     pool.query(
-        `SELECT pub_id, pub_name 
-                 FROM publisher`,
+        `SELECT pub_id, pub_name, pub_address, pub_info, books  
+                 FROM publisher WHERE pub_id= ?`,
         [req.params.id],
         (error, rows) => {
             if (error) {
