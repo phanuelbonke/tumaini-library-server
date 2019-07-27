@@ -110,13 +110,13 @@ app.get("/api/library/:id/publisher", (req, res) => {
 });
 app.get("/api/book_auther/:id/member", (req, res) => {
     pool.query(
-        `SELECT b.name, b.cover_url, b.pub_id, m.dicription, m.name, GROUP_CONCAT(p.pub_id) publisher
-                         FROM book b
+        `SELECT b.book_id, m.id, m.address, m.dicription, m.name, GROUP_CONCAT(p.book_id) publisher
+                         FROM book_auther b
                          JOIN member m ON m.id = m.address
-                         JOIN publisher p ON p.pub_id = m.id
-                         WHERE b.pub_id = ?
-                         GROUP BY m.id, b.name
-                         ORDER BY b.pub_id, b.name`,
+                         JOIN book_auther p ON p.book_id = m.id
+                         WHERE b.book_id = ?
+                         GROUP BY m.id, b.auther
+                         ORDER BY b.book_id, b.auther`,
         [req.params.id],
         (error, rows) => {
             if (error) {
