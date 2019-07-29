@@ -1,10 +1,11 @@
 import React from "react";
+import BookAdmin from "./BookAdmin";
 
 function Admin() {
     return (
-        <div>
-            <h1>Admin Page</h1>
-        </div>
+        <div className="bkls-container">
+           <BookAdmin />
+       </div>
     );
 }
 
