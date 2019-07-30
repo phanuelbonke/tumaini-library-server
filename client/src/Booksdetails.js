@@ -60,7 +60,6 @@ class BooksDetails extends React.Component {
          }
 
         const {
-            book_id,
             name,
             cover_url,
             dicription,
@@ -79,9 +78,7 @@ class BooksDetails extends React.Component {
                             alt={name}
                         />
                         <div className="bkls-books-details-info">
-                            <p>
-                                <span>book_id</span>: {book_id}
-                            </p>
+                          
                             <h2>{name}</h2>
                             <p>
                                 <span>dicription</span>:{dicription}

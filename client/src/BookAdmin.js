@@ -8,6 +8,10 @@ class BookAdmin extends React.Component {
         super(props);
         this.state = {
             name: "",
+            cover_url:"",
+            dicription:"",
+            pub_id:"",
+            id:"",
             editing: false,
             formSubmitting: false,
             validationErrors: {},
@@ -44,7 +48,7 @@ class BookAdmin extends React.Component {
             })
             .catch(error => {
                 this.setState({
-                    books: [],
+                    book: [],
                     tableLoading: false,
                     tableError: true
                 });
@@ -54,6 +58,10 @@ class BookAdmin extends React.Component {
     resetFormState() {
         this.setState({
             name: "",
+            cover_url: "",
+            dicription: "",
+            pub_id: "",
+            id: "",
             editing: false,
             formSubmitting: false,
             validationErrors: {},
@@ -97,7 +105,7 @@ class BookAdmin extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        const { editing, books, id, name } = this.state;
+        const { editing, book, book_id, name } = this.state;
 
         if (this.isValid()) {
             this.setState({
@@ -110,18 +118,18 @@ class BookAdmin extends React.Component {
             if (editing) {
                 // Existing record - update
                 axios
-                    .put(`/api/books/${id}`, { name })
+                    .put(`/api/book/${book_id}`, { name })
                     .then(response => {
                         this.resetFormState();
 
-                        const index = books.findIndex(b => b.id === id);
+                        const index = book.findIndex(b => b.book_id === book_id);
 
                         this.setState({
                             formSuccess: true,
-                            books: [
-                                ...books.slice(0, index),
-                                { id, name },
-                                ...books.slice(index + 1)
+                            book: [
+                                ...book.slice(0, index),
+                                { book_id, name },
+                                ...book.slice(index + 1)
                             ]
                         });
                     })
@@ -136,12 +144,12 @@ class BookAdmin extends React.Component {
             } else {
                 // New record - Save
                 axios
-                    .post("/api/books", { name })
+                    .post("/api/book", { name })
                     .then(response => {
                         this.resetFormState();
                         this.setState({
                             formSuccess: true,
-                            books: [...books, { id: response.data, name }]
+                            book: [...book, { book_id: response.data, name }]
                         });
                     })
                     .catch(error => {
@@ -164,14 +172,14 @@ class BookAdmin extends React.Component {
 
     handleDeleteBook(book,books) {
         return () => {
-            const { id, name } = book;
+            const { book_id, name } = book;
 
             // eslint-disable-next-line no-restricted-globals
             if (confirm(`Are you sure you want to delete '${name}'?`)) {
                 axios
-                    .delete(`/api/books/${id}`)
+                    .delete(`/api/book/${book_id}`)
                     .then(response => {
-                        const index = books.findIndex(c => c.id === id);
+                        const index = books.findIndex(c => c.book_id === book_id);
 
                         this.setState({
                             books: [
