@@ -3,7 +3,7 @@ import React from "react";
 function PublisherList() {
     return (
         <div>
-            <h1>Publisher List</h1>
+            <p>Please enter a Publisher name or id</p>
         </div>
     );
 }
