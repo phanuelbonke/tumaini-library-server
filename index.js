@@ -326,8 +326,8 @@ const client = require('twilio')(accountSid, authToken);
 
 client.messages
     .create({
-        body: 'This is the app i was telling you?',
+        body: 'This is my dream app i was telling you?',
         from: '+14086457383',
-        to: '+25418366252'
+        to: '+254718366252'
     })
     .then(message => console.log(message.sid));
