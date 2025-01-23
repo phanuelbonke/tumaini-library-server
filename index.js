@@ -113,7 +113,7 @@ app.get("/api/book_auther/:id/member", (req, res) => {
         `SELECT b.book_id, m.id, m.address, m.dicription, m.name, GROUP_CONCAT(p.book_id) publisher
                          FROM book_auther b
                          JOIN member m ON m.id = m.address
-                         JOIN book_auther p ON p.book_id = m.id
+                         JOIN book_auther p ON p.BOOK_id = m.id
                          WHERE b.book_id = ?
                          GROUP BY m.id, b.auther
                          ORDER BY b.book_id, b.auther`,
