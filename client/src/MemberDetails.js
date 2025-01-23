@@ -15,7 +15,7 @@ import Error from "./Error";
          }
     
             componentDidMount() {
-             this.fetchMemberDetails();
+             this.FetchMemberDetails();
          }
     
          fetchMemberDetails() {
